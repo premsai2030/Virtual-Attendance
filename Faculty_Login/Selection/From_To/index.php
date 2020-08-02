@@ -1,14 +1,16 @@
 <?php 
 session_start();
 error_reporting(0);
-$id=$_GET["id"];
 /*if ($id=='') {
 	header("location : http://localhost/attendance_trail/watch.php");
 }*/
 $db=mysqli_connect('localhost','root','','attendance');
 $subject=$_SESSION['subject'];
+//AND date_save BETWEEN '01-08-2020' AND '03-08-2020'
 $sql="SELECT * FROM take_attendance  WHERE subject='$subject' ORDER BY id ";
+$sql1="SELECT * FROM take_attendance  WHERE subject='$subject' ORDER BY id DESC";
 $ok=mysqli_query($db,$sql);
+$ok1=mysqli_query($db,$sql1);
 $number=mysqli_num_rows($ok);
 $username=$_SESSION["username"];
 if ($username==true) {
@@ -17,6 +19,7 @@ if ($username==true) {
 else{
   header("location :http://localhost/attendance/Faculty_Login/");
 }
+
 
 
 ?>
@@ -64,7 +67,7 @@ else{
      </div>
      <div class="col-sm-4">
        <div style="text-align: center;">
-         <p style="font-size: 30px;color: white">Attendance < 60%</p>
+         <p style="font-size: 30px;color: white"> From< - >To</p>
        </div>
      </div>
      <div class="col-sm-4">
@@ -81,74 +84,56 @@ else{
 		<div class="col-sm-2">			
 		</div>
 		<div class="col-sm-6">
-			  <p ><b>Subject : </b> <?php echo $subject; ?></p>
-    <p ><b>Total Periods : </b> <?php echo $number; ?></p>
-</div>
-      <table>
-  <tr>
-    <th>
-      Check
-    </th>
-    <th>
-      Roll Number
-    </th>
-    <th>
-      Present
-    </th>
-    <th>
-      %
-    </th>
-  </tr>
-<?php 
-
-
-$arr=array("17911A04C1","17911A04C2","17911A04C3","17911A04C4","17911A04C5","17911A04C6","17911A04C8","17911A04C9",
-"17911A04D0","17911A04D1","17911A04D2","17911A04D3","17911A04D4","17911A04D6","17911A04D7","17911A04D8","17911A04D9",
-"17911A04E0","17911A04E1","17911A04E3","17911A04E4","17911A04E5","17911A04E9",
-"17911A04F1","17911A04F3","17911A04F4","17911A04F5","17911A04F6","17911A04F7","17911A04F8",
-"17911A04G0","17911A04G1","17911A04G2","17911A04G3","17911A04G4","17911A04G6","17911A04G7","17911A04G9",
-"17911A04H0","17911A04H1","17911A04H3","17911A04H5","17911A04H6","17911A04H7","17911A04H8","17911A04H9","17911A04J0",
-"18911A0415","18911A0416","18911A0417","18911A0418","18911A0419","18911A0420","18911A0421",
-"16911A0414","16911A0435","16911A0481","16911A04P2","16911A04P8");
-for ($i=0; $i < count($arr) ;$i++){ 
-  $res=mysqli_query($db,$sql);
-  $num=mysqli_num_rows($res);
-  $count=0;
-  while ($rows=mysqli_fetch_assoc($res)) {
-  if ($rows[$arr[$i]]=="1") {
-  $count++;
+<form action="Result" method="get">
+ <div class="row">
+    <div class="col-sm-6">
+    <div style="text-align: center;">
+       <div class="form-group">
+    <label for="exampleFormControlSelect1"><b>From Date</b></label>
+    <select class="form-control" name="from" >
+     <?php 
+      $first1=0;
+while ($rows=mysqli_fetch_assoc($ok)) {
+if ($first1!=$rows["date_save"]) {
+     echo" <option value=".$rows["date_save"].">".$rows["date_save"]."</option>";
+     $first1=$rows["date_save"];
+  }}
+      ?>
+     
+    </select>
+  </div>
+    </div>
+  </div>
+   <div class="col-sm-6">
+       <div style="text-align: center;">
+       <div class="form-group">
+    <label for="exampleFormControlSelect1"><b>To Date</b></label>
+    <select class="form-control" name="to" >
+         <?php 
+         $first=0;
+while ($rows1=mysqli_fetch_assoc($ok1)) {
+  if ($first!=$rows1["date_save"]) {
+     echo" <option value=".$rows1["date_save"].">".$rows1["date_save"]."</option>";
+     $first=$rows1["date_save"];
   }
-  }
-  $result=($count/$num)*100;
-  if ($result<60) {
-   echo "
-<tr>
-  <td>
-    <i class='fa fa-close' style='font-size:24px;color:red;'></i>
-  </td>
-  <td>
-    ".$arr[$i]."
-  </td>
-  <td>
-    ".$count."/".$num."
-  </td>
-  <td>
-    ".round($result, 2)."
-  </td>
-</tr>
-
-   ";
-  }
-  
 }
-?>
-
-</table>
-
-		<div style="text-align: center;margin-top: 20px;">
-					<button onclick="window.print()" class="btn btn-success">Save As</button>
+      ?>
+    </select>
+  </div>
+    </div>
+  </div>
+ </div>
+ <div class="row" style="margin-top: 20px;">
+  <div class="col-sm-12">
+     <div style="text-align: center;">
+     <button class=" btn btn-success" type="submit" name="submit">Fetch</button>
+   </div>
+  </div>
+ </div>
+</form>
 
 		</div>
+ 
 		</div>
 		<div class="col-sm-2"></div>
 	</div>

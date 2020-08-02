@@ -7,6 +7,14 @@ $subject=$_SESSION["subject"];
 $sql="SELECT * FROM take_attendance  WHERE subject='$subject' ORDER BY id DESC  ";
 $ok=mysqli_query($db,$sql);
 $number=mysqli_num_rows($ok);
+$username=$_SESSION["username"];
+if ($username==true) {
+  
+}
+else{
+  header("location :http://localhost/attendance/Faculty_Login/");
+}
+
 
 
 
@@ -59,7 +67,7 @@ $number=mysqli_num_rows($ok);
      </div>
      <div class="col-sm-4">
     <div style="text-align: right;" id="remove">
-    <p style="color: white;font-size:20px;margin-top: 10px;margin-right: 10px;"><a href="logout" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
+    <p style="color: white;font-size:20px;margin-top: 10px;margin-right: 10px;"><a href="http://localhost/attendance/Faculty_Login/LOGOUT/" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
  Log Out</a></p>
   </div>
      </div>
@@ -123,7 +131,7 @@ mysqli_close($db);
    <div class="col-sm-2"></div>
   <div class="col-sm-6">
     <div style="text-align: center;">
-      <a href="logout" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
+      <a href="http://localhost/attendance/Faculty_Login/LOGOUT/" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
  Log Out</a>
     </div>
   </div>

@@ -1,11 +1,12 @@
 <?php
 session_start();
 error_reporting(0);
-if ($_SESSION["username"]==true) {
+$username=$_SESSION["username"];
+if ($username==true) {
   
 }
 else{
-  header("location : http://localhost/attendance/Faculty_Login/index.php");
+  header("location :http://localhost/attendance/Faculty_Login/");
 }
  unset($_SESSION['taken']);
 ?>
@@ -52,7 +53,7 @@ else{
      </div>
      <div class="col-sm-4">
   <div style="text-align: right;" id="remove">
-    <p style="color: white;font-size:20px;margin-top: 10px;margin-right: 10px;"><a href="http://localhost/attendance/logout.php" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
+    <p style="color: white;font-size:20px;margin-top: 10px;margin-right: 10px;"><a href="http://localhost/attendance/Faculty_Login/LOGOUT/" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
  Log Out</a></p>
   </div>
      </div>
@@ -96,9 +97,7 @@ Update Attendance</a></h4></div>
 </div>
  </div>
  </div>
-</div>
-<div class="col-sm-6">
-  <div style="text-align: center;">
+   <div style="text-align: center;">
     <div style="text-align: center;">
    <div class="card text-white  bg-success mb-3" style="max-width: 28rem;">
   <div class="card-header" ><h4><a href="Attendance_Percentage" style="color: white"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Attendance %</a></h4></div>
@@ -113,6 +112,9 @@ Update Attendance</a></h4></div>
 </div>
  </div>
  </div>
+</div>
+<div class="col-sm-6">
+
    <div style="text-align: center;">
     <div style="text-align: center;">
    <div class="card text-white  bg-danger mb-3" style="max-width: 28rem;">
@@ -122,6 +124,21 @@ Update Attendance</a></h4></div>
     <p class="card-text" style="color: white;font-size: 15px;">We provides you .............<br>
       A simple way to check the students who are  having the attendance percentage less than  "60"<br>
       <br><br> 
+
+    </p>
+  </div>
+</div>
+ </div>
+ </div>
+   <div style="text-align: center;">
+    <div style="text-align: center;">
+   <div class="card text-white  bg-primary mb-3" style="max-width: 28rem;">
+  <div class="card-header" ><h4><a href="From_To" style="color: white"><i class="fas fa-list-alt"></i> From< - >To </a></h4></div>
+  <div class="card-body">
+    
+    <p class="card-text" style="color: white;font-size: 15px;">
+      A simple way to check the students Attendance Percentage in between Two dates<br>
+      <br><br><br>
 
     </p>
   </div>
@@ -140,7 +157,7 @@ Update Attendance</a></h4></div>
    <div class="col-sm-2"></div>
   <div class="col-sm-6">
     <div style="text-align: center;">
-      <a href="logout" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
+      <a href="http://localhost/attendance/Faculty_Login/LOGOUT/" style="color: white"><i class="fa fa-power-off" style="font-size:17px"></i>
  Log Out</a>
     </div>
   </div>

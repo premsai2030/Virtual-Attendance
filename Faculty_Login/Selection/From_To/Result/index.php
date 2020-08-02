@@ -1,14 +1,15 @@
 <?php 
 session_start();
 error_reporting(0);
-$id=$_GET["id"];
-/*if ($id=='') {
-	header("location : http://localhost/attendance_trail/watch.php");
-}*/
+
 $db=mysqli_connect('localhost','root','','attendance');
-$sql="SELECT * FROM take_attendance  WHERE id='$id' ";
-$prem=mysqli_query($db,$sql);
-$row_s=mysqli_fetch_assoc($prem);
+$subject=$_SESSION['subject'];
+if (isset($_GET["submit"])) {
+  $from=$_GET["from"];
+  $to=$_GET["to"];
+$sql1="SELECT * FROM take_attendance  WHERE subject='$subject' AND date_save BETWEEN '$from' AND '$to' ";
+$ok1=mysqli_query($db,$sql1);
+$number=mysqli_num_rows($ok1);
 $username=$_SESSION["username"];
 if ($username==true) {
   
@@ -19,6 +20,7 @@ else{
 
 
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,7 +64,7 @@ else{
      </div>
      <div class="col-sm-4">
        <div style="text-align: center;">
-         <p style="font-size: 30px;color: white">Taken Attendance</p>
+         <p style="font-size: 30px;color: white"> From< - >To</p>
        </div>
      </div>
      <div class="col-sm-4">
@@ -73,84 +75,46 @@ else{
      </div>
    </div>
   </nav>
+
+
   <br><br><br><br>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-2">			
 		</div>
 		<div class="col-sm-6">
-			<div >
-				<p ><b>Subject : </b><?php echo $row_s["subject"]; ?></p>
-				<p><b>Date : </b><?php echo $row_s["date_save"]; ?></p>
-			</div>
-				<table>
-			<tr>
-				<th>
-					Check
-				</th>
-				<th>
-					Name
-				</th>
-			</tr>
-			<?php 
-$arr=array(
-    "A AJAY KUMAR",
-    "A SUDHARSHAN REDDY",
-    "AITHA VAMSHI KRISHNA",
-    "ALUGUBELLY TRIVENI REDDY",
-    "AMANDU VIJAY KUMAR",
-    "ANAND KUMAR DIXIT",
-    "ASIF IQBAL AHMED",
-    "B PRIYANKA",
-    "BANDA RAVALIKA",
-    "BEMANAVENA SWETHA",
-    "BHANU PRAKASH PINNAMANENI",
-    "BHUKYA VIJAY NAIK",
-    "BOBBILIGAMA PRUTHVI TEJ GOUD",
-    "D SAI JEEVANTH RAJIV TEJA",
-    "DANDETIKAR TARUNDEEP",
-    "DEVALAPALLY PRERANA",
-    "DHULIPALA VENKATA NAGA KAMESWARI",
-    "DIGUMARTHI VINCI JOHNSON",
-    "EERASANI VAMSHI GOUD",
-    "GORULA SUDEEPTHI",
-    "GUMMADAVELLY TEJASWINI",
-    "JAINA SHIVATEJA",
-    "KANCHERLA PREM SAI VITTAL",
-    "KODUMURI SAHITHI",
-    "KONDAPURAM APARNA REDDY",
-    "KOURATLA SAI CHAITANYA REDDY",
-    "KURVA VAISHNAVI",
-    "MADDELA ARNOLD SAM KUMAR",
-    "MALOTH ANAND",
-    "MANDHA NEERAJA",
-    "MOHAMMED RIYAZ",
-    "MUDAVATH BHARATH CHANDRA",
-    "NAMANI VIJAY KUMAR",
-    "PENDOTA SURYADATTA",
-    "PENDYALA VIVEK",
-    "PORALLA PRADHYUMNA",
-    "PULIGARI RAKESH REDDY",
-    "ROMPI SOWMYA",
-    "SARDAR KULPREETH SINGH",
-    "SHIVANI PERAM",
-    "SISTU VIJAY RAHUL PRASAD",
-    "THALLAPELLY SOHAN",
-    "V NIHAL",
-    "VISHAL JAIN",
-    "VISWANADHAPALLI SRI ABHISHIKTHA VASU",
-    "YESHWANTH REDDY PATLOLLA",
-    "MANTRI N S PRAJWAL REDDY",
-    "PANUGANTI JAYANTH KUMAR",
-    "GUDEPU ARAVIND",
-    "PARGI NAVEEN",
-    "R DILEEP KUMAR",
-    "JETTURI SHIVA PRASAD REDDY",
-    "Y.PAVANI",
-    "MOOSAPETA USHA SREE",
-"FURQAAN EATHYSHAM","KUCHIBHOTLA V SAI PRAKASH","KALUJULAPATI SAKETH SARMA","THOTA ROHITH","YENNAM ABHINAY REDDY"
-);
-$arr1=array("17911A04C1","17911A04C2","17911A04C3","17911A04C4","17911A04C5","17911A04C6","17911A04C8","17911A04C9",
+<?php 
+
+$sql2="SELECT * FROM take_attendance WHERE subject='$subject' AND date_save BETWEEN '$from' AND '$to'";
+?>
+
+
+
+			  <p ><b>Subject : </b> <?php echo $subject; ?></p>
+    <p ><b>Total Periods : </b> <?php echo $number; ?></p>
+        <p ><b>From Date : </b> <?php echo $from; ?></p>
+    <p ><b>To Date : </b> <?php echo $to; ?></p>
+
+
+      <table>
+  <tr>
+    <th>
+      Check
+    </th>
+    <th>
+      Roll Number
+    </th>
+    <th>
+      Present
+    </th>
+    <th>
+      %
+    </th>
+  </tr>
+ 
+<?php
+
+$arr=array("17911A04C1","17911A04C2","17911A04C3","17911A04C4","17911A04C5","17911A04C6","17911A04C8","17911A04C9",
 "17911A04D0","17911A04D1","17911A04D2","17911A04D3","17911A04D4","17911A04D6","17911A04D7","17911A04D8","17911A04D9",
 "17911A04E0","17911A04E1","17911A04E3","17911A04E4","17911A04E5","17911A04E9",
 "17911A04F1","17911A04F3","17911A04F4","17911A04F5","17911A04F6","17911A04F7","17911A04F8",
@@ -158,53 +122,71 @@ $arr1=array("17911A04C1","17911A04C2","17911A04C3","17911A04C4","17911A04C5","17
 "17911A04H0","17911A04H1","17911A04H3","17911A04H5","17911A04H6","17911A04H7","17911A04H8","17911A04H9","17911A04J0",
 "18911A0415","18911A0416","18911A0417","18911A0418","18911A0419","18911A0420","18911A0421",
 "16911A0414","16911A0435","16911A0481","16911A04P2","16911A04P8");
-for ($i=0; $i <count($arr1) ; $i++) { 
-	$ok=mysqli_query($db,$sql);
-	$num=mysqli_num_rows($ok);
-	while ($rows=mysqli_fetch_assoc($ok)) {
-	if ($rows[$arr1[$i]]=="1") {
-		
-		echo "
-	<tr>
-				<td>
-					<i class='fa fa-check' style='font-size:24px;color:green;'></i>
-				</td>
-				<td>
-					<b>".$arr[$i]."</b> (".$arr1[$i].")
-				</td>
-			</tr>
-
-		";
-	}
-	else{
-
-
-echo "
+for ($i=0; $i < count($arr) ;$i++){ 
+  $res=mysqli_query($db,$sql2);
+  $num=mysqli_num_rows($res);
+  $count=0;
+  while ($rows2=mysqli_fetch_assoc($res)) {
+  if ($rows2[$arr[$i]]=="1") {
+  $count++;
+  }
+  }
+  $result=($count/$num)*100;
+  if ($result<60) {
+   echo "
 <tr>
-				<td>
-					<i class='fa fa-close' style='font-size:24px;color:red;'></i>
-				</td>
-				<td>
-					<b>".$arr[$i]."</b> (".$arr1[$i].")
-				</td>
-			</tr>
+  <td>
+    <i class='fa fa-close' style='font-size:24px;color:red;'></i>
+  </td>
+  <td>
+    ".$arr[$i]."
+  </td>
+  <td>
+    ".$count."/".$num."
+  </td>
+  <td>
+    ".round($result, 2)."
+  </td>
+</tr>
 
-";
-	}
+   ";
+  }
+  else{
+    echo "
+<tr>
+  <td>
+    <i class='fa fa-check' style='font-size:24px;color:green;'></i>
+  </td>
+  <td>
+    ".$arr[$i]."
+  </td>
+  <td>
+    ".$count."/".$num."
+  </td>
+  <td>
+    ".round($result, 2)."
+  </td>
+</tr>
+
+   ";
+  }
 }
-}
 
+?>
 
-			 ?>
-	
+</table>
 		
-			
-		</table>
-		<div style="text-align: center;margin-top: 20px;">
-					<button onclick="window.print()" class="btn btn-success">Save As</button>
 
-		</div>
-		</div>
+<div style="text-align: center;margin-top: 20px;">
+                <button onclick="window.print()" class="btn btn-success">Save As</button>
+
+</div>
+
+<?php 
+}
+ ?>
+  </div>
+
 		<div class="col-sm-2"></div>
 	</div>
 </div>
